@@ -4,6 +4,9 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import torch.nn as nn
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print("Using device:", device)
+
 def dataloader(train_dataset, test_dataset):
     batch_size = 64  # Adjusted batch size for MNIST
 
@@ -88,9 +91,6 @@ class ConvNet(nn.Module):
 
 
 def main():
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print("Using device:", device)
-
     learning_rate = 0.001
 
     # lower since MNIST can converge pretty quick
@@ -103,7 +103,7 @@ def main():
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     best_accuracy = 0.0
-    best_model_path = 'best_mnist_model.pth'
+    best_model_path = 'mnist_centralized_model.pth'
 
     for epoch in range(num_epochs):
         model.train()
